@@ -2,6 +2,8 @@ package com.todo.taskmanager.service;
 
 import com.todo.taskmanager.entity.Task;
 import com.todo.taskmanager.repository.TaskRepository;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -9,30 +11,22 @@ import java.util.List;
 @Service
 public class TaskService {
 
-    private final TaskRepository taskRepository;
+    @Autowired
+    private TaskRepository taskRepository;
 
-    public TaskService(TaskRepository taskRepository) {
-        this.taskRepository = taskRepository;
-    }
-
-    // Lister
     public List<Task> getAllTasks() {
         return taskRepository.findAll();
     }
 
-    // Sauvegarder (ajout / modification)
-    public void save(Task task) {
+    public void saveTask(Task task) {
         taskRepository.save(task);
     }
 
-    // Récupérer par ID
     public Task getTaskById(Long id) {
-        return taskRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Tâche non trouvée"));
+        return taskRepository.findById(id).orElse(null);
     }
 
-    // Supprimer
-    public void delete(Long id) {
+    public void deleteTask(Long id) {
         taskRepository.deleteById(id);
     }
 }
